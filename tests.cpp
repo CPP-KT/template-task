@@ -2,4 +2,5 @@
 
 TEST(something, simple) {
   ASSERT_EQ(1, 1);
+  
 }
