@@ -19,7 +19,8 @@ jobs:
     - name: dependencies
       run: |
         apt-get update
-        apt-get install -y git build-essential binutils gcc clang cmake valgrind libc++-dev libc++abi-dev libunwind-13-dev
+        apt-get install -y git build-essential binutils gcc clang cmake valgrind libc++-dev libc++abi-dev libunwind-13-dev python3
+        pip3 install conan
       
     - uses: actions/checkout@v2
 
