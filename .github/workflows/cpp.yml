@@ -27,7 +27,11 @@ jobs:
 
         apt-get update
         apt-get install -y git build-essential lsb-release software-properties-common binutils gcc cmake valgrind ninja-build curl zip unzip tar pkg-config \
-          kitware-archive-keyring gdb clang-14 lld-14 libc++-14-dev libc++abi-14-dev
+          kitware-archive-keyring gdb
+
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+       ./llvm.sh 15
 
         cd ..
         git clone https://github.com/microsoft/vcpkg.git
