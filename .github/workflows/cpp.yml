@@ -29,6 +29,8 @@ jobs:
         apt-get update
         apt-get install -y git build-essential lsb-release software-properties-common binutils gcc cmake valgrind ninja-build curl zip unzip tar pkg-config  kitware-archive-keyring gdb
 
+        apt-get install clang-14 lld-14 libc++-14-dev libc++abi-14-dev
+
         cd ..
         git clone https://github.com/microsoft/vcpkg.git
         ./vcpkg/bootstrap-vcpkg.sh
