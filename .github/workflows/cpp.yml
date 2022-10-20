@@ -50,7 +50,7 @@ jobs:
         cp ./ci-extra/*.cmake ../vcpkg/triplets/
         mkdir -p cmake-build-${{ matrix.build_type }}
         rm -rf cmake-build-${{ matrix.build_type }}/*
-        cmake "-DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake" ${matrix.triplet_setter} -GNinja --preset ${{ matrix.build_type }} -DENABLE_SLOW_TEST=ON -S .
+        cmake "-DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake" ${{ matrix.triplet_setter }} -GNinja --preset ${{ matrix.build_type }} -DENABLE_SLOW_TEST=ON -S .
         cmake --build cmake-build-${{ matrix.build_type }}
 
     - name: Test main
