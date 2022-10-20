@@ -8,7 +8,7 @@ jobs:
     name: Tests in ${{ matrix.build_type }} with ${{ matrix.compilerSetter }}
     runs-on: ubuntu-22.04
     container: 
-      image: ubuntu:22.04
+      image: ubuntu:22.10
       options: --privileged
     env:
       DEBIAN_FRONTEND: noninteractive
