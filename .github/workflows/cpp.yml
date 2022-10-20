@@ -7,7 +7,7 @@ jobs:
   test:
     name: Tests in ${{ matrix.build_type }} with ${{ matrix.compilerSetter }}
     runs-on: ubuntu-22.04
-    container: 
+    container:
       image: ubuntu:22.10
       options: --privileged
     env:
@@ -26,18 +26,23 @@ jobs:
         echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
         apt-get update
-        apt-get install -y git build-essential binutils  gcc clang  cmake valgrind libc++-dev libc++abi-dev ninja-build curl zip unzip tar pkg-config  kitware-archive-keyring gdb
+        apt-get install -y git build-essential binutils gcc cmake valgrind ninja-build curl zip unzip tar pkg-config  kitware-archive-keyring gdb
+
+        wget https://apt.llvm.org/llvm.sh
+        chmod +x llvm.sh
+        llvm.sh 15 all
+
         cd ..
         git clone https://github.com/microsoft/vcpkg.git
         ./vcpkg/bootstrap-vcpkg.sh
         cd $GITHUB_WORKSPACE
 
-    # see https://github.com/actions/checkout/issues/760    
+    # see https://github.com/actions/checkout/issues/760
     - name: git-workaround
       run: |
         export REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $2}')
         git config --global --add safe.directory /__w/${REPOSITORY_NAME}/${REPOSITORY_NAME}
-        
+
     - uses: actions/checkout@v2
 
     - name: Build main
