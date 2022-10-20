@@ -30,7 +30,7 @@ jobs:
 
         wget https://apt.llvm.org/llvm.sh
         chmod +x llvm.sh
-        llvm.sh 15 all
+        ./llvm.sh 15 all
 
         cd ..
         git clone https://github.com/microsoft/vcpkg.git
