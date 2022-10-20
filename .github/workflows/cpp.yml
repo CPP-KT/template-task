@@ -47,7 +47,7 @@ jobs:
 
     - name: Build main
       run: |
-        ${{ matrix.compilerSetter }} vcpkg install gtest
+        ${{ matrix.compilerSetter }} ../vcpkg/vcpkg install gtest
         ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
 
     - name: Test main
