@@ -18,13 +18,4 @@ if (USE_SANITIZERS)
   target_link_options(tests PUBLIC -fsanitize=address,undefined,leak)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  message(STATUS "Enabling libc++...")
-  target_compile_options(tests PUBLIC -stdlib=libc++)
-  target_link_options(tests PUBLIC -stdlib=libc++)
-elseif (CMAKE_BUILD_TYPE MATCHES "Debug")
-  message(STATUS "Enabling _GLIBCXX_DEBUG...")
-  target_compile_options(tests PUBLIC -D_GLIBCXX_DEBUG)
-endif()
-
 target_link_libraries(tests GTest::gtest GTest::gtest_main)

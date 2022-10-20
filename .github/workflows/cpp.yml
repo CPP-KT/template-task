@@ -5,7 +5,7 @@ on:
 
 jobs:
   test:
-    name: Tests in ${{ matrix.build_type }} with ${{ matrix.compilerSetter }}
+    name: Tests in ${{ matrix.build_type }} with ${{ matrix.triplet_setter }}
     runs-on: ubuntu-22.04
     container:
       image: ubuntu:22.10
@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug, SanitizedDebug, RelWithDebInfo]
-        compilerSetter: [CC=gcc CXX=g++, CC=clang-15 CXX='clang-15 -stdlib=libc++']
+        triplet_setter: [-DVCPKG_TARGET_TRIPLET=linux-clang -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=ci-extra/clang-toolchain.cmake, -DVCPKG_TARGET_TRIPLET=linux-gnu -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=ci-extra/gnu-toolchain.cmake]
 
     steps:
     - name: dependencies
@@ -46,7 +46,12 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build main
-      run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
+      run: | # ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
+        cp ./ci-extra/*.cmake ../vcpkg/triplets/
+        mkdir -p cmake-build-${{ matrix.build_type }}
+        rm -rf cmake-build-${{ matrix.build_type }}/*
+        cmake "-DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake" ${matrix.triplet_setter} -GNinja --preset ${{ matrix.build_type }} -DENABLE_SLOW_TEST=ON -S .
+        cmake --build cmake-build-${{ matrix.build_type }}
 
     - name: Test main
       run: ci-extra/test.sh ${{ matrix.build_type }}
