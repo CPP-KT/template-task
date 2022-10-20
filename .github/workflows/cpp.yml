@@ -26,9 +26,8 @@ jobs:
         echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
         apt-get update
-        apt-get install -y git build-essential lsb-release software-properties-common binutils gcc cmake valgrind ninja-build curl zip unzip tar pkg-config  kitware-archive-keyring gdb
-
-        apt-get install clang-14 lld-14 libc++-14-dev libc++abi-14-dev
+        apt-get install -y git build-essential lsb-release software-properties-common binutils gcc cmake valgrind ninja-build curl zip unzip tar pkg-config \
+          kitware-archive-keyring gdb clang-14 lld-14 libc++-14-dev libc++abi-14-dev
 
         cd ..
         git clone https://github.com/microsoft/vcpkg.git
@@ -50,8 +49,8 @@ jobs:
         rm -rf cmake-build-${{ matrix.build_type }}/*
 
         cmake "-DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake" \
-        -DVCPKG_TARGET_TRIPLET=linux-${{ matrix.toolchain }} -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/ci-extra/${{ matrix.toolchain }}-toolchain.cmake \
-        -GNinja --preset ${{ matrix.build_type }} -DENABLE_SLOW_TEST=ON -S .
+          -DVCPKG_TARGET_TRIPLET=linux-${{ matrix.toolchain }} -DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/ci-extra/${{ matrix.toolchain }}-toolchain.cmake \
+          -GNinja --preset ${{ matrix.build_type }} -DENABLE_SLOW_TEST=ON -S .
 
         cmake --build cmake-build-${{ matrix.build_type }}
 
