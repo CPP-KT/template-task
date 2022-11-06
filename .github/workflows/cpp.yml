@@ -39,7 +39,7 @@ jobs:
         git clone https://github.com/microsoft/vcpkg.git
         ./vcpkg/bootstrap-vcpkg.sh
         cd $GITHUB_WORKSPACE
-        
+
     - uses: actions/checkout@v3
 
     - name: Build main
