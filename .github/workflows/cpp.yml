@@ -50,8 +50,8 @@ jobs:
       run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
 
     - name: Test main
-      run: ci-extra/test.sh ${{ matrix.build_type }}
+      run: ${{ matrix.compilerSetter }} ci-extra/test.sh ${{ matrix.build_type }}
 
     - if: ${{ matrix.build_type == 'RelWithDebInfo' }}
       name: Test main with valgrind
-      run: ci-extra/test-valgrind.sh
+      run: ${{ matrix.compilerSetter }} ci-extra/test-valgrind.sh
