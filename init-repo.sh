@@ -6,6 +6,11 @@
 set -euo pipefail
 IFS=$' \t\n'
 
+if [[ ! $(git remote get-url origin) =~ ^git@ ]]; then
+    echo "The project is not cloned via SSH"
+    exit 1
+fi
+
 if git remote | grep --quiet upstream; then
     echo "init-repo.sh was already done on this repository."
     exit 1
