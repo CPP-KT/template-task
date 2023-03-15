@@ -7,8 +7,21 @@ find_package(GTest REQUIRED)
 
 add_executable(tests tests.cpp)
 
-if (NOT MSVC)
-  target_compile_options(tests PRIVATE -Werror -Wall -Wextra -Wshadow=compatible-local -Wno-sign-compare -pedantic)
+if (MSVC)
+  target_compile_options(tests PRIVATE /WX /W4 /permissive-)
+else()
+  target_compile_options(tests PRIVATE -Werror -Wall -Wextra -pedantic -Wno-sign-compare)
+endif()
+
+# Compiler specific warnings
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  target_compile_options(tests PRIVATE -Wshadow=compatible-local)
+  target_compile_options(tests PRIVATE -Wduplicated-branches)
+  target_compile_options(tests PRIVATE -Wduplicated-cond)
+  target_compile_options(tests PRIVATE -Wnull-dereference)
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  target_compile_options(tests PRIVATE -Wshadow-uncaptured-local)
+  target_compile_options(tests PRIVATE -Wloop-analysis)
 endif()
 
 option(USE_SANITIZERS "Enable to build with undefined,leak and address sanitizers" OFF)
