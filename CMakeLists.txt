@@ -8,9 +8,15 @@ find_package(GTest REQUIRED)
 add_executable(tests tests.cpp)
 
 if (MSVC)
-  target_compile_options(tests PRIVATE /WX /W4 /permissive-)
+  target_compile_options(tests PRIVATE /W4 /permissive-)
+  if (TREAT_WARNINGS_AS_ERRORS)
+    target_compile_options(tests PRIVATE /WX)
+  endif()
 else()
-  target_compile_options(tests PRIVATE -Werror -Wall -Wextra -pedantic -Wno-sign-compare)
+  target_compile_options(tests PRIVATE -Wall -Wextra -pedantic -Wno-sign-compare)
+  if (TREAT_WARNINGS_AS_ERRORS)
+    target_compile_options(tests PRIVATE -Werror)
+  endif()
 endif()
 
 # Compiler specific warnings
