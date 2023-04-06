@@ -28,6 +28,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
 elseif (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(tests PRIVATE -Wshadow-uncaptured-local)
   target_compile_options(tests PRIVATE -Wloop-analysis)
+  target_compile_options(tests PRIVATE -Wno-self-assign-overloaded)
 endif()
 
 option(USE_SANITIZERS "Enable to build with undefined,leak and address sanitizers" OFF)
