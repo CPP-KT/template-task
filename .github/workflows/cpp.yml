@@ -33,8 +33,8 @@ jobs:
     strategy:
       matrix:
         build_type: [Release, Debug, SanitizedDebug, RelWithDebInfo]
-        # clang-14 uses dwarf-5 which valgrind doesn't support yet
-        compilerSetter: [CC=gcc CXX=g++, CC=clang CXX='clang++ -gdwarf-4 -stdlib=libc++' ASAN_OPTIONS=alloc_dealloc_mismatch=0]
+        # clang-15 uses dwarf-5 which valgrind doesn't support yet
+        compilerSetter: [CC=gcc-12 CXX=g++-12, CC=clang-15 CXX='clang++-15 -gdwarf-4 -stdlib=libc++' ASAN_OPTIONS=alloc_dealloc_mismatch=0]
 
     steps:
     - name: dependencies
@@ -45,7 +45,7 @@ jobs:
         echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
         apt-get update
-        apt-get install -y git build-essential binutils gcc clang cmake valgrind libc++-dev libc++abi-dev ninja-build curl zip unzip tar pkg-config kitware-archive-keyring gdb
+        apt-get install -y git build-essential binutils g++-12 gcc-12 clang-15 cmake valgrind libc++-15-dev libc++abi-15-dev ninja-build curl zip unzip tar pkg-config kitware-archive-keyring gdb
         cd ..
         git clone https://github.com/microsoft/vcpkg.git
         ./vcpkg/bootstrap-vcpkg.sh
