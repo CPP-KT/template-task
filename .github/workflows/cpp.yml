@@ -4,11 +4,33 @@ on:
   pull_request
 
 jobs:
-  formatting-check:
-    name: Formatting Check
-    runs-on: ubuntu-latest
+  test-updates-check:
+    name: Test updates check
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Check test updates
+        run: |
+          source ci-extra/set-upstream.sh
+          git remote add upstream "https://github.com/$UPSTREAM_REPO.git"
+          git fetch upstream master
+          if git merge-base --is-ancestor upstream/master @; then
+            echo 'Tests are up to date'
+          else
+            echo 'Test updates found. Please run ./update-repo.sh'
+            exit 1
+          fi
+
+  formatting-check:
+    needs: test-updates-check
+    name: Formatting check
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
       - name: Check line breaks
         run: |
           sudo apt-get install -y dos2unix
@@ -37,7 +59,7 @@ jobs:
         compilerSetter: [CC=gcc-12 CXX=g++-12, CC=clang-15 CXX='clang++-15 -gdwarf-4 -stdlib=libc++' ASAN_OPTIONS=alloc_dealloc_mismatch=0]
 
     steps:
-    - name: dependencies
+    - name: Setup dependencies
       run: |
         apt-get update
         apt-get install -y gpg wget
@@ -51,7 +73,8 @@ jobs:
         ./vcpkg/bootstrap-vcpkg.sh
         cd $GITHUB_WORKSPACE
 
-    - uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Build main
       run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
