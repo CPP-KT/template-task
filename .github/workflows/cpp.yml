@@ -41,47 +41,47 @@ jobs:
         shell: bash
 
     steps:
-    - name: Setup dependencies
-      run: |
-        apt-get update
-        apt-get install -y gpg wget
-        wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-        echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+      - name: Setup dependencies
+        run: |
+          apt-get update
+          apt-get install -y gpg wget
+          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+          echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+          
+          apt-get update
+          apt-get install -y git build-essential binutils g++-12 gcc-12 clang-15 cmake valgrind libc++-15-dev libc++abi-15-dev ninja-build curl zip unzip tar pkg-config kitware-archive-keyring gdb
+          cd ..
+          git clone https://github.com/microsoft/vcpkg.git
+          ./vcpkg/bootstrap-vcpkg.sh
+          cd $GITHUB_WORKSPACE
 
-        apt-get update
-        apt-get install -y git build-essential binutils g++-12 gcc-12 clang-15 cmake valgrind libc++-15-dev libc++abi-15-dev ninja-build curl zip unzip tar pkg-config kitware-archive-keyring gdb
-        cd ..
-        git clone https://github.com/microsoft/vcpkg.git
-        ./vcpkg/bootstrap-vcpkg.sh
-        cd $GITHUB_WORKSPACE
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Checkout repository
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - name: Update tests
+        run: |
+          chown root:root .
+          git config --global user.name "John Doe"
+          git config --global user.email johndoe@example.com
+          source ci-extra/set-upstream.sh
+          git remote add upstream "https://github.com/$UPSTREAM_REPO.git"
+          git fetch upstream master
+          if git merge-base --is-ancestor upstream/master @; then
+            echo 'Tests are already up to date.'
+          else
+            echo -ne '\e[0;33mWARNING: Tests were not updated on your side. '
+            echo -e 'This script will however run the most recent version.\e[0m'
+            git rebase upstream/master
+          fi
 
-    - name: Update tests
-      run: |
-        chown root:root .
-        git config --global user.name "John Doe"
-        git config --global user.email johndoe@example.com
-        source ci-extra/set-upstream.sh
-        git remote add upstream "https://github.com/$UPSTREAM_REPO.git"
-        git fetch upstream master
-        if git merge-base --is-ancestor upstream/master @; then
-          echo 'Tests are already up to date.'
-        else
-          echo -ne '\e[0;33mWARNING: Tests were not updated on your side. '
-          echo -e 'This script will however run the most recent version.\e[0m'
-          git rebase upstream/master
-        fi
+      - name: Build main
+        run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
 
-    - name: Build main
-      run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
+      - name: Test main
+        run: ${{ matrix.compilerSetter }} ci-extra/test.sh ${{ matrix.build_type }}
 
-    - name: Test main
-      run: ${{ matrix.compilerSetter }} ci-extra/test.sh ${{ matrix.build_type }}
-
-    - if: ${{ matrix.build_type == 'RelWithDebInfo' }}
-      name: Test main with valgrind
-      run: ${{ matrix.compilerSetter }} ci-extra/test-valgrind.sh
+      - if: ${{ matrix.build_type == 'RelWithDebInfo' }}
+        name: Test main with valgrind
+        run: ${{ matrix.compilerSetter }} ci-extra/test-valgrind.sh
