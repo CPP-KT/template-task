@@ -4,28 +4,7 @@ on:
   pull_request
 
 jobs:
-  test-updates-check:
-    name: Test updates check
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Check test updates
-        run: |
-          source ci-extra/set-upstream.sh
-          git remote add upstream "https://github.com/$UPSTREAM_REPO.git"
-          git fetch upstream master
-          if git merge-base --is-ancestor upstream/master @; then
-            echo 'Tests are up to date'
-          else
-            echo 'Test updates found. Please run ./update-repo.sh'
-            exit 1
-          fi
-
   formatting-check:
-    needs: test-updates-check
     name: Formatting check
     runs-on: ubuntu-22.04
     steps:
@@ -57,6 +36,9 @@ jobs:
         build_type: [Release, Debug, SanitizedDebug, RelWithDebInfo]
         # clang-15 uses dwarf-5 which valgrind doesn't support yet
         compilerSetter: [CC=gcc-12 CXX=g++-12, CC=clang-15 CXX='clang++-15 -gdwarf-4 -stdlib=libc++' ASAN_OPTIONS=alloc_dealloc_mismatch=0]
+    defaults:
+      run:
+        shell: bash
 
     steps:
     - name: Setup dependencies
@@ -75,6 +57,23 @@ jobs:
 
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Update tests
+      run: |
+        chown root:root .
+        git config --global user.name "John Doe"
+        git config --global user.email johndoe@example.com
+        source ci-extra/set-upstream.sh
+        git remote add upstream "https://github.com/$UPSTREAM_REPO.git"
+        git fetch upstream master
+        if git merge-base --is-ancestor upstream/master @; then
+          echo 'Tests are up to date'
+        else
+          echo 'Updating tests...'
+          git rebase upstream/master
+        fi
 
     - name: Build main
       run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
