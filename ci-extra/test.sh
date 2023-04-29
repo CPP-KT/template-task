@@ -20,4 +20,3 @@ if [[ $1 == "Debug" ]]; then
 else
   cmake-build-$1/tests
 fi
-
