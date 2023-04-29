@@ -15,7 +15,7 @@ if (MSVC)
 else()
   target_compile_options(tests PRIVATE -Wall -Wextra -pedantic -Wno-sign-compare -Wold-style-cast)
   if (TREAT_WARNINGS_AS_ERRORS)
-    target_compile_options(tests PRIVATE -Werror)
+    target_compile_options(tests PRIVATE -Werror -pedantic-errors)
   endif()
 endif()
 
