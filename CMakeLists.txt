@@ -16,7 +16,9 @@ if (MSVC)
     target_compile_options(tests PRIVATE /WX)
   endif()
 else()
-  target_compile_options(tests PRIVATE -Wall -Wextra -pedantic -Wno-sign-compare -Wold-style-cast)
+  target_compile_options(tests PRIVATE
+      -Wall -Wextra -pedantic -Wno-sign-compare
+      -Wold-style-cast -Wextra-semi -Woverloaded-virtual -Wzero-as-null-pointer-constant)
   if (TREAT_WARNINGS_AS_ERRORS)
     target_compile_options(tests PRIVATE -Werror -pedantic-errors)
   endif()
