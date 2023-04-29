@@ -35,7 +35,10 @@ jobs:
       matrix:
         build_type: [Release, Debug, SanitizedDebug, RelWithDebInfo]
         # clang-15 uses dwarf-5 which valgrind doesn't support yet
-        compilerSetter: [CC=gcc-12 CXX=g++-12, CC=clang-15 CXX='clang++-15 -gdwarf-4 -stdlib=libc++' ASAN_OPTIONS=alloc_dealloc_mismatch=0]
+        compilerSetter: [
+          CC=gcc-12 CXX=g++-12,
+          CC=clang-15 CXX='clang++-15 -gdwarf-4 -stdlib=libc++' ASAN_OPTIONS=alloc_dealloc_mismatch=0
+        ]
     defaults:
       run:
         shell: bash
@@ -45,11 +48,16 @@ jobs:
         run: |
           apt-get update
           apt-get install -y gpg wget
-          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-          echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+          wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null \
+            | gpg --dearmor - \
+            | tee /usr/share/keyrings/kitware-archive-keyring.gpg \
+            >/dev/null
+          echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' \
+            | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
           apt-get update
-          apt-get install -y git build-essential binutils g++-12 gcc-12 clang-15 cmake valgrind libc++-15-dev libc++abi-15-dev ninja-build curl zip unzip tar pkg-config kitware-archive-keyring gdb
+          apt-get install -y git build-essential binutils g++-12 gcc-12 clang-15 cmake valgrind libc++-15-dev libc++abi-15-dev \
+            ninja-build curl zip unzip tar pkg-config kitware-archive-keyring gdb
           cd ..
           git clone https://github.com/microsoft/vcpkg.git
           ./vcpkg/bootstrap-vcpkg.sh
@@ -70,17 +78,24 @@ jobs:
           git fetch upstream master
           if git merge-base --is-ancestor upstream/master @; then
             echo 'Tests are already up to date.'
+            echo 'TESTS_UPDATED=0' >> $GITHUB_ENV
           else
-            echo -ne '\e[0;33mWARNING: Tests were not updated on your side. '
-            echo -e 'This script will however run the most recent version.\e[0m'
+            echo 'Updating tests...'
             git rebase upstream/master
+            echo 'Tests updated.'
+            echo 'TESTS_UPDATED=1' >> $GITHUB_ENV
           fi
 
       - name: Build main
         run: ${{ matrix.compilerSetter }} ci-extra/build.sh ${{ matrix.build_type }}
 
       - name: Test main
-        run: ${{ matrix.compilerSetter }} ci-extra/test.sh ${{ matrix.build_type }}
+        run: |
+          if [[ -n ${{ env.TESTS_UPDATED }} ]]; then
+            echo -ne '\e[0;33mWARNING: Tests were not updated on your side. '
+            echo -e 'This script will however run the most recent version.\e[0m'
+          fi
+          ${{ matrix.compilerSetter }} ci-extra/test.sh ${{ matrix.build_type }}
 
       - if: ${{ matrix.build_type == 'RelWithDebInfo' }}
         name: Test main with valgrind
