@@ -43,8 +43,8 @@ if(USE_SANITIZERS)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  message(STATUS "Enabling libc++...")
-  target_compile_options(tests PUBLIC -stdlib=libc++)
+  message(STATUS "Enabling libc++ and setting dwarf-5...")
+  target_compile_options(tests PUBLIC -stdlib=libc++ -gdwarf-5)
   target_link_options(tests PUBLIC -stdlib=libc++)
 endif()
 
