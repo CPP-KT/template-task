@@ -4,6 +4,6 @@
 
 #include <stdexcept>
 
-TEST(dummy_test, test_abi) {
+TEST(dummy_test, abi) {
   EXPECT_THROW(throwing_func(), std::logic_error);
 }

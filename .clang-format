@@ -96,7 +96,7 @@ IndentCaseLabels: false
 IndentExternBlock: NoIndent
 IndentGotoLabels: false
 IndentPPDirectives: None
-IndentRequiresClause: false
+IndentRequiresClause: true
 IndentWidth: 2
 IndentWrappedFunctionNames: false
 InsertBraces: true
