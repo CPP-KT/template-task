@@ -31,7 +31,7 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [Release, Debug, SanitizedDebug, RelWithDebInfo]
-        compiler: ['gcc:13', 'clang:16']
+        compiler: ['gcc:13', 'clang:17']
 
     runs-on: ubuntu-latest
     container:
