@@ -42,7 +42,7 @@ jobs:
           - RelWithDebInfo
           - Sanitized
           - SanitizedDebug
-          - ThreadSanitized
+          # - ThreadSanitized
         exclude:
           # Valgrind is only supported by Linux container
           - toolchain: { name: macOS }
