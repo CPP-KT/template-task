@@ -96,7 +96,7 @@ jobs:
           git remote add upstream "https://github.com/$UPSTREAM_REPO.git"
           git fetch upstream master
           if git merge-base --is-ancestor upstream/master @; then
-            echo 'Tests are already up to date.'
+            echo 'Tests are already up-to-date.'
             echo 'TESTS_UPDATED=0' >> $GITHUB_ENV
           else
             echo 'Updating tests...'
@@ -115,8 +115,7 @@ jobs:
       - name: Run tests
         run: |
           if [[ $TESTS_UPDATED -eq 1 ]]; then
-            echo -ne '\e[0;33mWARNING: Tests were not updated on your side. '
-            echo -e 'This script will however run the most recent version.\e[0m'
+            echo -e '\e[0;33mWARNING: Running a newer version of the tests than you have pushed.\e[0m'
           fi
           ci-extra/test.sh ${{ matrix.build_type }}
 
