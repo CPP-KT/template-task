@@ -3,7 +3,7 @@ set -euo pipefail
 
 BUILD_TYPE=$1
 
-if [[ $BUILD_TYPE == "SanitizedDebug" ]]; then
+if [[ $BUILD_TYPE == Sanitized* ]]; then
   export ASAN_OPTIONS=alloc_dealloc_mismatch=0
 fi
 

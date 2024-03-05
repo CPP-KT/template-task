@@ -39,8 +39,10 @@ jobs:
         build_type:
           - Release
           - Debug
-          - SanitizedDebug
           - RelWithDebInfo
+          - Sanitized
+          - SanitizedDebug
+          - ThreadSanitized
         exclude:
           # Valgrind is only supported by Linux container
           - toolchain: { name: macOS }
@@ -49,6 +51,9 @@ jobs:
             build_type: RelWithDebInfo
           - toolchain: { name: Windows }
             build_type: RelWithDebInfo
+          # TSAN is only supported by GCC and Clang
+          - toolchain: { name: Windows }
+            build_type: ThreadSanitized
 
     runs-on: ${{ matrix.toolchain.os }}
 

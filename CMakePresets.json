@@ -8,7 +8,6 @@
   "configurePresets": [
     {
       "name": "Release",
-      "displayName": "Release",
       "description": "Default Release build",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -17,7 +16,6 @@
     },
     {
       "name": "Debug",
-      "displayName": "debug",
       "description": "Debug build without sanitizers",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
@@ -25,8 +23,24 @@
       "binaryDir": "cmake-build-Debug"
     },
     {
+      "name": "RelWithDebInfo",
+      "description": "Release with debug info",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      },
+      "binaryDir": "cmake-build-RelWithDebInfo"
+    },
+    {
+      "name": "Sanitized",
+      "description": "RelWithDebInfo build with undefined, address and leak sanitizers enabled",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "USE_SANITIZERS": "ON"
+      },
+      "binaryDir": "cmake-build-Sanitized"
+    },
+    {
       "name": "SanitizedDebug",
-      "displayName": "SanitizedDebug",
       "description": "Debug build with undefined, address and leak sanitizers enabled",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -35,13 +49,13 @@
       "binaryDir": "cmake-build-SanitizedDebug"
     },
     {
-      "name": "RelWithDebInfo",
-      "displayName": "RelWithDebInfo",
-      "description": "Release with debug info",
+      "name": "ThreadSanitized",
+      "description": "RelWithDebInfo build with thread sanitizer enabled",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "USE_THREAD_SANITIZER": "ON"
       },
-      "binaryDir": "cmake-build-RelWithDebInfo"
+      "binaryDir": "cmake-build-ThreadSanitized"
     }
   ]
 }
