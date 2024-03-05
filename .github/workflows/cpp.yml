@@ -61,7 +61,7 @@ jobs:
       image:
         ${{
         contains(matrix.toolchain.os, 'ubuntu') &&
-        format('ghcr.io/{0}/ubuntu:{1}', github.repository_owner, matrix.toolchain.compiler) ||
+        format('ghcr.io/cpp-kt/ubuntu:{0}', matrix.toolchain.compiler) ||
         null
         }}
 
