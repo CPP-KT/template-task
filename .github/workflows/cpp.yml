@@ -80,6 +80,6 @@ jobs:
             ci-extra/test.sh ${{ matrix.build_type }}
           fi
 
-      - if: ${{ matrix.build_type == 'RelWithDebInfo' }}
-        name: Test main with valgrind
+      - name: Run tests with valgrind
+        if: ${{ matrix.build_type == 'RelWithDebInfo' }}
         run: ci-extra/test-valgrind.sh
