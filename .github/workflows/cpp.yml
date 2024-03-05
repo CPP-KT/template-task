@@ -17,7 +17,7 @@ jobs:
           ci-extra/check-lines.sh
           popd
       - name: Run clang-format style check
-        # TODO format using clang container
+        # TODO use clang-format from a container
         uses: jidicula/clang-format-action@v4.11.0
         with:
           clang-format-version: '17'
