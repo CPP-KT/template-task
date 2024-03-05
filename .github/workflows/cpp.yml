@@ -25,17 +25,31 @@ jobs:
 
   test:
     needs: formatting-check
-    name: Tests in ${{ matrix.build_type }} with ${{ matrix.compiler }}
+    name: "Test (${{ matrix.toolchain.os_name }}, ${{ matrix.toolchain.compiler }}, ${{ matrix.build_type }})"
 
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Release, Debug, SanitizedDebug, RelWithDebInfo]
-        compiler: ['gcc:13', 'clang:17']
+        toolchain:
+          - { os_name: Ubuntu,  os: ubuntu-22.04, compiler: gcc-13 }
+          - { os_name: Ubuntu,  os: ubuntu-22.04, compiler: clang-18 }
+          - { os_name: macOS,   os: macos-12,     compiler: appleclang-18 }
+          - { os_name: Windows, os: windows-2022, compiler: msvc-2022 }
+        build_type:
+          - Release
+          - Debug
+          - SanitizedDebug
+          - RelWithDebInfo
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.toolchain.os }}
+
     container:
-      image: ghcr.io/cpp-kt/${{ matrix.compiler }}
+      image:
+        ${{
+        contains(matrix.toolchain.os, 'ubuntu') &&
+        format('ghcr.io/{0}/ubuntu:{1}', github.repository_owner, matrix.toolchain.compiler) ||
+        null
+        }}
 
     defaults:
       run:
@@ -46,6 +60,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Setup Cpp
+        if: ${{ !contains(matrix.toolchain.os, 'ubuntu') }}
+        uses: aminya/setup-cpp@v1
+        with:
+          compiler: ${{ matrix.toolchain.compiler }}
+          vcvarsall: ${{ contains(matrix.toolchain.os, 'windows') }}
+          ninja: true
+          cmake: true
+          vcpkg: true
+        env:
+          VCPKG_DISABLE_METRICS: 1
 
       - name: Update tests
         run: |
@@ -65,21 +91,21 @@ jobs:
             echo 'TESTS_UPDATED=1' >> $GITHUB_ENV
           fi
 
-      - name: Build main
-        run: ci-extra/build.sh ${{ matrix.build_type }}
-
-      - name: Test main
+      - name: Build
         run: |
-          if [[ ${{ env.TESTS_UPDATED }} -eq 1 ]]; then
+          ci-extra/build.sh ${{ matrix.build_type }}
+        env:
+          CMAKE_TOOLCHAIN_FILE:
+            "${{ contains(matrix.toolchain.os, 'ubuntu') && '/opt' || '~' }}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+
+      - name: Run tests
+        run: |
+          if [[ $TESTS_UPDATED -eq 1 ]]; then
             echo -ne '\e[0;33mWARNING: Tests were not updated on your side. '
             echo -e 'This script will however run the most recent version.\e[0m'
           fi
-          if [[ ${{ matrix.build_type }} == "SanitizedDebug" ]]; then
-            ASAN_OPTIONS=alloc_dealloc_mismatch=0 ci-extra/test.sh ${{ matrix.build_type }}
-          else
-            ci-extra/test.sh ${{ matrix.build_type }}
-          fi
+          ci-extra/test.sh ${{ matrix.build_type }}
 
       - name: Run tests with valgrind
         if: ${{ matrix.build_type == 'RelWithDebInfo' }}
-        run: ci-extra/test-valgrind.sh
+        run: ci-extra/test-valgrind.sh ${{ matrix.build_type }}

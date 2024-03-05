@@ -1,7 +1,13 @@
 #!/bin/bash
 set -euo pipefail
 
-if [[ $1 == "Debug" ]]; then
+BUILD_TYPE=$1
+
+if [[ $BUILD_TYPE == "SanitizedDebug" ]]; then
+  export ASAN_OPTIONS=alloc_dealloc_mismatch=0
+fi
+
+if [[ $BUILD_TYPE == "Debug" ]]; then
   gdb -q -return-child-result --batch \
     -ex 'handle SIGHUP nostop pass' \
     -ex 'handle SIGQUIT nostop pass' \
@@ -15,7 +21,7 @@ if [[ $1 == "Debug" ]]; then
     -ex 'set print frame-arguments all' \
     -ex 'run' \
     -ex 'thread apply all bt -frame-info source-and-location -full' \
-    --args cmake-build-$1/tests
+    --args cmake-build-"$BUILD_TYPE"/tests
 else
-  cmake-build-$1/tests
+  cmake-build-"$BUILD_TYPE"/tests
 fi

@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euo pipefail
-IFS=$' \t\n'
+
+BUILD_TYPE=$1
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -13,4 +14,4 @@ valgrind --tool=memcheck \
   --vgdb=no \
   --error-exitcode=1 \
   --suppressions="${SCRIPT_DIR}/valgrind.suppressions" \
-  cmake-build-RelWithDebInfo/tests
+  "cmake-build-$BUILD_TYPE"/tests
