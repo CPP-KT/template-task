@@ -40,6 +40,12 @@ jobs:
           - Debug
           - SanitizedDebug
           - RelWithDebInfo
+        exclude:
+          # Valgrind is only supported by Linux container
+          - toolchain: { os_name: macOS }
+            build_type: RelWithDebInfo
+          - toolchain: { os_name: Windows }
+            build_type: RelWithDebInfo
 
     runs-on: ${{ matrix.toolchain.os }}
 
