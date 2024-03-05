@@ -25,16 +25,17 @@ jobs:
 
   test:
     needs: formatting-check
-    name: "Test (${{ matrix.toolchain.os_name }}, ${{ matrix.toolchain.compiler }}, ${{ matrix.build_type }})"
+    name: "Test (${{ matrix.toolchain.name }}, ${{ matrix.build_type }})"
 
     strategy:
       fail-fast: false
       matrix:
         toolchain:
-          - { os_name: Ubuntu,  os: ubuntu-22.04, compiler: gcc-13 }
-          - { os_name: Ubuntu,  os: ubuntu-22.04, compiler: clang-18 }
-          - { os_name: macOS,   os: macos-12,     compiler: appleclang-18 }
-          - { os_name: Windows, os: windows-2022, compiler: msvc-2022 }
+          - { name: Linux/GCC,   os: ubuntu-22.04, compiler: gcc-13 }
+          - { name: Linux/Clang, os: ubuntu-22.04, compiler: clang-18 }
+          - { name: macOS,       os: macos-13,     compiler: appleclang-18 }
+          - { name: macOS M1,    os: macos-14,     compiler: appleclang-18 }
+          - { name: Windows,     os: windows-2022, compiler: msvc-2022 }
         build_type:
           - Release
           - Debug
@@ -42,9 +43,11 @@ jobs:
           - RelWithDebInfo
         exclude:
           # Valgrind is only supported by Linux container
-          - toolchain: { os_name: macOS }
+          - toolchain: { name: macOS }
             build_type: RelWithDebInfo
-          - toolchain: { os_name: Windows }
+          - toolchain: { name: macOS M1 }
+            build_type: RelWithDebInfo
+          - toolchain: { name: Windows }
             build_type: RelWithDebInfo
 
     runs-on: ${{ matrix.toolchain.os }}
