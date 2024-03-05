@@ -12,7 +12,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
       },
-      "binaryDir": "cmake-build-Release"
+      "binaryDir": "cmake-build-${presetName}"
     },
     {
       "name": "Debug",
@@ -20,7 +20,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       },
-      "binaryDir": "cmake-build-Debug"
+      "binaryDir": "cmake-build-${presetName}"
     },
     {
       "name": "RelWithDebInfo",
@@ -28,7 +28,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       },
-      "binaryDir": "cmake-build-RelWithDebInfo"
+      "binaryDir": "cmake-build-${presetName}"
     },
     {
       "name": "Sanitized",
@@ -37,7 +37,7 @@
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "USE_SANITIZERS": "ON"
       },
-      "binaryDir": "cmake-build-Sanitized"
+      "binaryDir": "cmake-build-${presetName}"
     },
     {
       "name": "SanitizedDebug",
@@ -46,7 +46,7 @@
         "CMAKE_BUILD_TYPE": "Debug",
         "USE_SANITIZERS": "ON"
       },
-      "binaryDir": "cmake-build-SanitizedDebug"
+      "binaryDir": "cmake-build-${presetName}"
     },
     {
       "name": "ThreadSanitized",
@@ -55,7 +55,7 @@
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
         "USE_THREAD_SANITIZER": "ON"
       },
-      "binaryDir": "cmake-build-ThreadSanitized"
+      "binaryDir": "cmake-build-${presetName}"
     }
   ]
 }
