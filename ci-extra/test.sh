@@ -1,6 +1,5 @@
 #!/bin/bash
 set -euo pipefail
-IFS=$' \t\n'
 
 if [[ $1 == "Debug" ]]; then
   gdb -q -return-child-result --batch \
