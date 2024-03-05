@@ -7,7 +7,7 @@ if [[ $BUILD_TYPE == "SanitizedDebug" ]]; then
   export ASAN_OPTIONS=alloc_dealloc_mismatch=0
 fi
 
-if [[ $BUILD_TYPE == "Debug" ]]; then
+if [[ $BUILD_TYPE == 'Debug' && -n $(which gdb) && $(uname -s) != MINGW* ]]; then
   gdb -q -return-child-result --batch \
     -ex 'handle SIGHUP nostop pass' \
     -ex 'handle SIGQUIT nostop pass' \
