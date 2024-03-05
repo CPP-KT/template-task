@@ -89,7 +89,7 @@ jobs:
 
       - name: Update tests
         run: |
-          chown root:root .
+          chown $(id -u):$(id -g) .
           git config --global user.name "John Doe"
           git config --global user.email johndoe@example.com
           source ci-extra/set-upstream.sh
