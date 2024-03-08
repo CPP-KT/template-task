@@ -14,4 +14,4 @@ valgrind --tool=memcheck \
   --vgdb=no \
   --error-exitcode=1 \
   --suppressions="${SCRIPT_DIR}/valgrind.suppressions" \
-  "cmake-build-$BUILD_TYPE"/tests
+  cmake-build-"$BUILD_TYPE"/tests

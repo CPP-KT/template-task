@@ -9,4 +9,4 @@ cmake -S . -B cmake-build-"$BUILD_TYPE" \
   -DENABLE_SLOW_TEST=ON -DTREAT_WARNINGS_AS_ERRORS=ON
 
 # Build
-cmake --build cmake-build-"$BUILD_TYPE"  -j
+cmake --build cmake-build-"$BUILD_TYPE" -j
