@@ -41,7 +41,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   target_compile_options(tests PRIVATE -Wno-self-assign-overloaded)
 endif()
 
-option(USE_SANITIZERS "Enable to build with undefined, address and leak sanitizers" OFF)
+option(USE_SANITIZERS "Enable to build with undefined and address sanitizers" OFF)
 if(USE_SANITIZERS)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     message(STATUS "Enabling ASAN")
@@ -53,12 +53,6 @@ if(USE_SANITIZERS)
     target_link_options(tests PUBLIC -fsanitize=undefined,address)
 
     target_compile_options(tests PUBLIC -fno-sanitize-recover=all -fno-optimize-sibling-calls -fno-omit-frame-pointer)
-
-    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-      message(STATUS "Enabling LSAN")
-      target_compile_options(tests PUBLIC -fsanitize=leak)
-      target_link_options(tests PUBLIC -fsanitize=leak)
-    endif()
   endif()
 endif()
 
