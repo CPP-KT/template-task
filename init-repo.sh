@@ -11,7 +11,7 @@ if [[ ! $(git remote get-url origin) =~ ^git@ ]]; then
   exit 1
 fi
 
-if git remote | grep --quiet upstream; then
+if git branch | grep --quiet feedback; then
   echo "init-repo.sh was already done on this repository."
   exit 1
 fi
