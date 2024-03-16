@@ -24,8 +24,8 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
 fi
 
 source ci-extra/set-upstream.sh
-
 git remote add upstream "git@github.com:$UPSTREAM_REPO.git"
+
 git fetch upstream
 git branch feedback upstream/master
 git push -u origin feedback:feedback

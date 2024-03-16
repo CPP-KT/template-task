@@ -14,6 +14,11 @@ if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
   exit 1
 fi
 
+if ! git remote | grep --quiet upstream; then
+  source ci-extra/set-upstream.sh
+  git remote add upstream "git@github.com:$UPSTREAM_REPO.git"
+fi
+
 git checkout feedback
 git pull --ff-only upstream master
 git push origin
