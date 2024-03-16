@@ -16,7 +16,7 @@ if git remote | grep --quiet upstream; then
   exit 1
 fi
 
-if [ -n "$(git status --untracked-files=no --porcelain)" ]; then
+if [[ -n $(git status --untracked-files=no --porcelain) ]]; then
   echo "init-repo.sh is intended to work on a freshly created repository."
   echo "The working copy of this reposity is dirty. Please checkout or"
   echo "stash changes and run ./init-repo.sh again."
