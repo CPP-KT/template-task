@@ -3,7 +3,7 @@ project(template)
 
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(GTest REQUIRED)
+find_package(Catch2 REQUIRED)
 
 file(GLOB TEST_SRC test/*.cpp)
 add_executable(tests ${TEST_SRC})
@@ -75,4 +75,4 @@ if(CMAKE_BUILD_TYPE MATCHES "Debug")
   target_compile_options(tests PUBLIC -D_GLIBCXX_DEBUG)
 endif()
 
-target_link_libraries(tests GTest::gtest GTest::gtest_main)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)

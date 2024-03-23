@@ -1,9 +1,9 @@
 #include "solution.h"
 
-#include <gtest/gtest.h>
+#include <catch2/catch_test_macros.hpp>
 
 #include <stdexcept>
 
-TEST(dummy_test, abi) {
-  EXPECT_THROW(throwing_func(), std::logic_error);
+TEST_CASE("ABI") {
+  REQUIRE_THROWS_AS(throwing_func(), std::logic_error);
 }
