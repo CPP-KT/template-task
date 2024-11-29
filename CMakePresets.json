@@ -9,7 +9,7 @@
     {
       "name": "default",
       "hidden": true,
-      "binaryDir": "${sourceDir}/build/cmake-build-${presetName}"
+      "binaryDir": "${sourceDir}/cmake-build-${presetName}"
     },
     {
       "name": "Release",
