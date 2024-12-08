@@ -96,6 +96,7 @@ IndentRequiresClause: true
 IndentWidth: 2
 IndentWrappedFunctionNames: false
 InsertBraces: true
+InsertNewlineAtEOF: true
 InsertTrailingCommas: Wrapped
 KeepEmptyLinesAtTheStartOfBlocks: false
 LambdaBodyIndentation: Signature
