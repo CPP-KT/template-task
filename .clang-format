@@ -164,4 +164,6 @@ StatementMacros:
 TabWidth: 4
 UseCRLF: false
 UseTab: Never
+# TODO: Uncomment when clang-format-20 is available
+# WrapNamespaceBodyWithEmptyLines: Always
 ...
