@@ -4,6 +4,10 @@
 
 #include <stdexcept>
 
+namespace ct::test {
+
 TEST_CASE("ABI") {
   REQUIRE_THROWS_AS(throwing_func(), std::logic_error);
 }
+
+} // namespace ct::test
