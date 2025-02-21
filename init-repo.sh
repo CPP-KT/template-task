@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Данный скрипт следует вызвать после первого клонирования
 # репозитория. Подробная информация:
 # https://cpp-kt.github.io/course/instruction.html
