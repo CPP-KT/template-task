@@ -15,7 +15,7 @@ if [[ -n $(git status --untracked-files=no --porcelain) ]]; then
 fi
 
 if ! git remote | grep --quiet upstream; then
-  source ci-extra/set-upstream.sh
+  source .github/constants.env
   git remote add upstream "git@github.com:$UPSTREAM_REPO.git"
 fi
 
