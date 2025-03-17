@@ -39,7 +39,7 @@ jobs:
           - Sanitized
           - SanitizedDebug
 
-    runs-on: [self-hosted, ubuntu, "${{ matrix.toolchain.runner-label }}"]
+    runs-on: [self-hosted, ubuntu, base, "${{ matrix.toolchain.runner-label }}"]
 
     env:
       CT_CMAKE_PRESET: "CI-${{ matrix.toolchain.compiler }}-${{ matrix.build-type }}"
