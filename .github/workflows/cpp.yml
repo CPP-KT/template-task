@@ -10,17 +10,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Check line breaks
         run: |
-          sudo apt-get install -y dos2unix
-          pushd $GITHUB_WORKSPACE
           ci-extra/check-lines.sh
-          popd
+
       - name: Run clang-format style check
-        # TODO use clang-format from a container
-        uses: jidicula/clang-format-action@v4.13.0
+        # TODO use native clang-format
+        uses: jidicula/clang-format-action@v4.14.0
         with:
-          clang-format-version: '18'
+          clang-format-version: '19'
           check-path: '.'
 
   test:
