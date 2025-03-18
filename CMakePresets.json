@@ -16,7 +16,7 @@
       }
     },
     {
-      "name": "Release",
+      "name": "Default-Release",
       "description": "Release build",
       "inherits": "Base",
       "cacheVariables": {
@@ -24,7 +24,7 @@
       }
     },
     {
-      "name": "Debug",
+      "name": "Default-Debug",
       "description": "Debug build",
       "inherits": "Base",
       "cacheVariables": {
@@ -33,7 +33,7 @@
       }
     },
     {
-      "name": "RelWithDebInfo",
+      "name": "Default-RelWithDebInfo",
       "description": "RelWithDebInfo build",
       "inherits": "Base",
       "cacheVariables": {
@@ -41,17 +41,17 @@
       }
     },
     {
-      "name": "Sanitized",
+      "name": "Default-Sanitized",
       "description": "RelWithDebInfo build with undefined and address sanitizers enabled",
-      "inherits": "RelWithDebInfo",
+      "inherits": "Default-RelWithDebInfo",
       "cacheVariables": {
         "CT_SANITIZED": "ON"
       }
     },
     {
-      "name": "SanitizedDebug",
+      "name": "Default-SanitizedDebug",
       "description": "Debug build with undefined and address sanitizers enabled",
-      "inherits": "Debug",
+      "inherits": "Default-Debug",
       "cacheVariables": {
         "CT_SANITIZED": "ON"
       }
@@ -90,43 +90,43 @@
     },
     {
       "name": "CI-GCC-Release",
-      "inherits": ["CI-GCC", "Release"]
+      "inherits": ["CI-GCC", "Default-Release"]
     },
     {
       "name": "CI-GCC-Debug",
-      "inherits": ["CI-GCC", "Debug"]
+      "inherits": ["CI-GCC", "Default-Debug"]
     },
     {
       "name": "CI-GCC-RelWithDebInfo",
-      "inherits": ["CI-GCC", "RelWithDebInfo"]
+      "inherits": ["CI-GCC", "Default-RelWithDebInfo"]
     },
     {
       "name": "CI-GCC-Sanitized",
-      "inherits": ["CI-GCC", "Sanitized"]
+      "inherits": ["CI-GCC", "Default-Sanitized"]
     },
     {
       "name": "CI-GCC-SanitizedDebug",
-      "inherits": ["CI-GCC", "SanitizedDebug"]
+      "inherits": ["CI-GCC", "Default-SanitizedDebug"]
     },
     {
       "name": "CI-Clang-Release",
-      "inherits": ["CI-Clang", "Release"]
+      "inherits": ["CI-Clang", "Default-Release"]
     },
     {
       "name": "CI-Clang-Debug",
-      "inherits": ["CI-Clang", "Debug"]
+      "inherits": ["CI-Clang", "Default-Debug"]
     },
     {
       "name": "CI-Clang-RelWithDebInfo",
-      "inherits": ["CI-Clang", "RelWithDebInfo"]
+      "inherits": ["CI-Clang", "Default-RelWithDebInfo"]
     },
     {
       "name": "CI-Clang-Sanitized",
-      "inherits": ["CI-Clang", "Sanitized"]
+      "inherits": ["CI-Clang", "Default-Sanitized"]
     },
     {
       "name": "CI-Clang-SanitizedDebug",
-      "inherits": ["CI-Clang", "SanitizedDebug"]
+      "inherits": ["CI-Clang", "Default-SanitizedDebug"]
     }
   ]
 }
