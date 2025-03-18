@@ -20,10 +20,8 @@ function(ct_fetch_vcpkg)
   message(STATUS "Fetching vcpkg...")
   FetchContent_Declare(
     vcpkg
-    GIT_REPOSITORY https://github.com/microsoft/vcpkg/
-    GIT_TAG 2025.02.14
-    GIT_SHALLOW TRUE
-    GIT_PROGRESS TRUE
+    URL https://github.com/microsoft/vcpkg/archive/refs/tags/2025.02.14.tar.gz
+    DOWNLOAD_EXTRACT_TIMESTAMP ON
   )
   FetchContent_MakeAvailable(vcpkg)
 

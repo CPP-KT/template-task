@@ -1,3 +1,0 @@
-include("@CMAKE_SOURCE_DIR@/cmake/ConfigureCompiler.cmake")
-
-ct_configure_compiler("@CT_COMPILER_TYPE@" "@CT_HARDENED" "@CT_SANITIZED@" ON)

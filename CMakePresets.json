@@ -10,10 +10,7 @@
       "name": "Base",
       "description": "General preset that applies to all configurations",
       "hidden": true,
-      "binaryDir": "${sourceDir}/build/${presetName}",
-      "cacheVariables": {
-        "CT_TOOLCHAIN_TEMPLATE": "${sourceDir}/cmake/toolchain-templates/default.cmake.in"
-      }
+      "binaryDir": "${sourceDir}/build/${presetName}"
     },
     {
       "name": "Default-Release",
@@ -74,7 +71,7 @@
       "cacheVariables": {
         "CT_C_EXE": "gcc-14",
         "CT_CXX_EXE": "gcc-14",
-        "CT_COMPILER_TYPE": "gcc"
+        "CT_COMPILER_ID": "GNU"
       }
     },
     {
@@ -85,7 +82,7 @@
       "cacheVariables": {
         "CT_C_EXE": "clang-19",
         "CT_CXX_EXE": "clang++-19",
-        "CT_COMPILER_TYPE": "clang"
+        "CT_COMPILER_ID": "Clang"
       }
     },
     {
