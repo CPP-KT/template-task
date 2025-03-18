@@ -12,6 +12,11 @@ function(ct_fetch_vcpkg)
     return()
   endif()
 
+  if(CMAKE_TOOLCHAIN_FILE MATCHES "vcpkg.cmake$")
+    message(STATUS "Skipped fetching vcpkg because CMAKE_TOOLCHAIN_FILE is already set to vcpkg.cmake")
+    return()
+  endif()
+
   message(STATUS "Fetching vcpkg...")
   FetchContent_Declare(
     vcpkg
