@@ -10,12 +10,14 @@
       "name": "Base",
       "description": "General preset that applies to all configurations",
       "hidden": true,
-      "binaryDir": "${sourceDir}/build/${presetName}"
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CT_TOOLCHAIN_TEMPLATE": "${sourceDir}/cmake/toolchain-templates/default.cmake.in"
+      }
     },
     {
       "name": "Release",
       "description": "Release build",
-      "hidden": true,
       "inherits": "Base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release"
@@ -24,7 +26,6 @@
     {
       "name": "Debug",
       "description": "Debug build",
-      "hidden": true,
       "inherits": "Base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
@@ -34,7 +35,6 @@
     {
       "name": "RelWithDebInfo",
       "description": "RelWithDebInfo build",
-      "hidden": true,
       "inherits": "Base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
@@ -43,7 +43,6 @@
     {
       "name": "Sanitized",
       "description": "RelWithDebInfo build with undefined and address sanitizers enabled",
-      "hidden": true,
       "inherits": "RelWithDebInfo",
       "cacheVariables": {
         "CT_SANITIZED": "ON"
@@ -52,7 +51,6 @@
     {
       "name": "SanitizedDebug",
       "description": "Debug build with undefined and address sanitizers enabled",
-      "hidden": true,
       "inherits": "Debug",
       "cacheVariables": {
         "CT_SANITIZED": "ON"
@@ -69,7 +67,7 @@
       }
     },
     {
-      "name": "GCC",
+      "name": "CI-GCC",
       "description": "Base preset for Linux/GCC CI builds",
       "hidden": true,
       "inherits": "CI-Linux",
@@ -80,7 +78,7 @@
       }
     },
     {
-      "name": "Clang",
+      "name": "CI-Clang",
       "description": "Base preset for Linux/Clang CI builds",
       "hidden": true,
       "inherits": "CI-Linux",
@@ -91,70 +89,44 @@
       }
     },
     {
-      "name": "Fallback",
-      "description": "Base preset for builds with auto-detected compiler",
-      "hidden": true,
-      "inherits": "Base"
-    },
-    {
       "name": "CI-GCC-Release",
-      "inherits": ["Release", "GCC"]
+      "inherits": ["CI-GCC", "Release"]
     },
     {
       "name": "CI-GCC-Debug",
-      "inherits": ["Debug", "GCC"]
+      "inherits": ["CI-GCC", "Debug"]
     },
     {
       "name": "CI-GCC-RelWithDebInfo",
-      "inherits": ["RelWithDebInfo", "GCC"]
+      "inherits": ["CI-GCC", "RelWithDebInfo"]
     },
     {
       "name": "CI-GCC-Sanitized",
-      "inherits": ["Sanitized", "GCC"]
+      "inherits": ["CI-GCC", "Sanitized"]
     },
     {
       "name": "CI-GCC-SanitizedDebug",
-      "inherits": ["SanitizedDebug", "GCC"]
+      "inherits": ["CI-GCC", "SanitizedDebug"]
     },
     {
       "name": "CI-Clang-Release",
-      "inherits": ["Release", "Clang"]
+      "inherits": ["CI-Clang", "Release"]
     },
     {
       "name": "CI-Clang-Debug",
-      "inherits": ["Debug", "Clang"]
+      "inherits": ["CI-Clang", "Debug"]
     },
     {
       "name": "CI-Clang-RelWithDebInfo",
-      "inherits": ["RelWithDebInfo", "Clang"]
+      "inherits": ["CI-Clang", "RelWithDebInfo"]
     },
     {
       "name": "CI-Clang-Sanitized",
-      "inherits": ["Sanitized", "Clang"]
+      "inherits": ["CI-Clang", "Sanitized"]
     },
     {
       "name": "CI-Clang-SanitizedDebug",
-      "inherits": ["SanitizedDebug", "Clang"]
-    },
-    {
-      "name": "Local-Release",
-      "inherits": ["Release", "Fallback"]
-    },
-    {
-      "name": "Local-Debug",
-      "inherits": ["Debug", "Fallback"]
-    },
-    {
-      "name": "Local-RelWithDebInfo",
-      "inherits": ["RelWithDebInfo", "Fallback"]
-    },
-    {
-      "name": "Local-Sanitized",
-      "inherits": ["Sanitized", "Fallback"]
-    },
-    {
-      "name": "Local-SanitizedDebug",
-      "inherits": ["SanitizedDebug", "Fallback"]
+      "inherits": ["CI-Clang", "SanitizedDebug"]
     }
   ]
 }

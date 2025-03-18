@@ -11,7 +11,7 @@ function(ct_set_compiler C_EXE CXX_EXE)
 endfunction()
 
 
-function(ct_configure_compiler COMPILER_TYPE HARDENED SANITIZED)
+function(ct_configure_compiler COMPILER_TYPE HARDENED SANITIZED STABLE_ABI)
   set(IS_GCC OFF)
   set(IS_CLANG OFF)
 
@@ -24,13 +24,13 @@ function(ct_configure_compiler COMPILER_TYPE HARDENED SANITIZED)
   set(CT_COMPILER_FLAGS "")
   set(CT_LINKER_FLAGS "")
 
-  if(IS_CLANG)
+  if(IS_CLANG AND NOT STABLE_ABI)
     set(CT_COMPILER_FLAGS "${CT_COMPILER_FLAGS} -stdlib=libc++")
     set(CT_LINKER_FLAGS "${CT_LINKER_FLAGS} -stdlib=libc++")
     message(STATUS "Using libc++ as a standard library")
   endif()
 
-  if(HARDENED)
+  if(HARDENED AND NOT STABLE_ABI)
     if(IS_GCC)
       set(CT_COMPILER_FLAGS "${CT_COMPILER_FLAGS} -D_GLIBCXX_DEBUG")
       message(STATUS "Enabled debug mode for libstdc++")
