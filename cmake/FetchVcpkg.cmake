@@ -21,7 +21,6 @@ function(ct_fetch_vcpkg)
   FetchContent_Declare(
     vcpkg
     URL https://github.com/microsoft/vcpkg/archive/refs/tags/2025.02.14.tar.gz
-    DOWNLOAD_EXTRACT_TIMESTAMP ON
   )
   FetchContent_MakeAvailable(vcpkg)
 
