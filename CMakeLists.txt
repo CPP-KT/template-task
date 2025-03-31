@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.21...3.31)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(SetupToolchain)
 include(ConfigureTarget)
+include(ConfigureVcpkg)
 include(CompilerWarnings)
 
 project(template LANGUAGES CXX)
@@ -11,6 +11,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+ct_configure_vcpkg()
 
 # Setup a 'solution' target
 file(GLOB SOLUTION_SRC CONFIGURE_DEPENDS src/*.cpp src/*.h)

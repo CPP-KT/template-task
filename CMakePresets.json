@@ -10,7 +10,11 @@
       "name": "Base",
       "description": "General preset that applies to all configurations",
       "hidden": true,
-      "binaryDir": "${sourceDir}/build/${presetName}"
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": {
+        "CT_TOOLCHAIN_TEMPLATE": "${sourceDir}/cmake/templates/toolchain.cmake.in",
+        "CT_TRIPLET_TEMPLATE": "${sourceDir}/cmake/templates/vcpkg-triplet.cmake.in"
+      }
     },
     {
       "name": "Default-Release",
@@ -57,11 +61,7 @@
       "name": "CI-Linux",
       "description": "Base preset for CI builds on Linux",
       "hidden": true,
-      "inherits": "Base",
-      "cacheVariables": {
-        "CT_TRIPLET_TEMPLATE": "${sourceDir}/cmake/vcpkg-triplet-templates/ct-x64-linux.cmake.in",
-        "CT_TOOLCHAIN_TEMPLATE": "${sourceDir}/cmake/toolchain-templates/ci.cmake.in"
-      }
+      "inherits": "Base"
     },
     {
       "name": "CI-GCC",
@@ -70,8 +70,7 @@
       "inherits": "CI-Linux",
       "cacheVariables": {
         "CT_C_EXE": "gcc-14",
-        "CT_CXX_EXE": "gcc-14",
-        "CT_COMPILER_ID": "GNU"
+        "CT_CXX_EXE": "gcc-14"
       }
     },
     {
@@ -81,8 +80,7 @@
       "inherits": "CI-Linux",
       "cacheVariables": {
         "CT_C_EXE": "clang-19",
-        "CT_CXX_EXE": "clang++-19",
-        "CT_COMPILER_ID": "Clang"
+        "CT_CXX_EXE": "clang++-19"
       }
     },
     {
