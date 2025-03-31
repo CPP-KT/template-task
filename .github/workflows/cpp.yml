@@ -24,14 +24,14 @@ jobs:
 
   test:
     needs: formatting-check
-    name: "Test (${{ matrix.toolchain.os }}/${{ matrix.toolchain.compiler }}, ${{ matrix.build-type }})"
+    name: "Test (${{ matrix.toolchain.os }}/${{ matrix.toolchain.compiler-id }}, ${{ matrix.build-type }})"
 
     strategy:
       fail-fast: false
       matrix:
         toolchain:
-          - { os: Linux, compiler: GCC,   runner-label: gcc-14 }
-          - { os: Linux, compiler: Clang, runner-label: clang-19 }
+          - { os: Linux, compiler-id: GCC,   runner-label: gcc-14 }
+          - { os: Linux, compiler-id: Clang, runner-label: clang-19 }
         build-type:
           - Release
           - Debug
@@ -42,7 +42,7 @@ jobs:
     runs-on: [self-hosted, ubuntu, base, "${{ matrix.toolchain.runner-label }}"]
 
     env:
-      CT_CMAKE_PRESET: "CI-${{ matrix.toolchain.compiler }}-${{ matrix.build-type }}"
+      CT_CMAKE_PRESET: "CI-${{ matrix.toolchain.compiler-id }}-${{ matrix.build-type }}"
 
     defaults:
       run:
