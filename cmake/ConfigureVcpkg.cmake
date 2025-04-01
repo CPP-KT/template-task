@@ -3,7 +3,7 @@ include(FetchContent)
 function(_ct_fetch_vcpkg)
   if (DEFINED ENV{CT_VCPKG_ROOT_DIR})
     message(STATUS "Detected CT_VCPKG_ROOT_DIR environment variable")
-    set(CT_VCPKG_ROOT_DIR "$ENV{CT_VCPKG_ROOT_DIR}" CACHE FILEPATH "")
+    set(CT_VCPKG_ROOT_DIR "$ENV{CT_VCPKG_ROOT_DIR}" CACHE PATH "")
   endif()
 
   if(DEFINED CT_VCPKG_ROOT_DIR)
@@ -16,7 +16,7 @@ function(_ct_fetch_vcpkg)
     )
     FetchContent_MakeAvailable(vcpkg)
 
-    set(CT_VCPKG_ROOT_DIR "${vcpkg_SOURCE_DIR}" CACHE FILEPATH "")
+    set(CT_VCPKG_ROOT_DIR "${vcpkg_SOURCE_DIR}" CACHE PATH "")
   endif()
 
   if(NOT DEFINED CT_VCPKG_TOOLCHAIN_FILE)
@@ -82,7 +82,7 @@ function(_ct_generate_toolchain_and_triplet)
     message(STATUS "Generated a vcpkg triplet '${CT_GENERATED_TRIPLET_NAME}' from template")
 
     set(VCPKG_TARGET_TRIPLET "${CT_GENERATED_TRIPLET_NAME}" CACHE STRING "")
-    set(VCPKG_OVERLAY_TRIPLETS "${CT_GENERATED_TRIPLETS_DIR}" CACHE FILEPATH "")
+    set(VCPKG_OVERLAY_TRIPLETS "${CT_GENERATED_TRIPLETS_DIR}" CACHE PATH "")
   endif()
 endfunction()
 
