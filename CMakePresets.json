@@ -57,11 +57,7 @@
       "name": "CI-Linux",
       "description": "Base preset for CI builds on Linux",
       "hidden": true,
-      "inherits": "Base",
-      "cacheVariables": {
-        "CT_TRIPLET_TEMPLATE": "${sourceDir}/cmake/vcpkg-triplet-templates/ct-x64-linux.cmake.in",
-        "CT_TOOLCHAIN_TEMPLATE": "${sourceDir}/cmake/toolchain-templates/ci.cmake.in"
-      }
+      "inherits": "Base"
     },
     {
       "name": "CI-GCC",
@@ -69,9 +65,7 @@
       "hidden": true,
       "inherits": "CI-Linux",
       "cacheVariables": {
-        "CT_C_EXE": "gcc-14",
-        "CT_CXX_EXE": "gcc-14",
-        "CT_COMPILER_ID": "GNU"
+        "CMAKE_CXX_COMPILER": "g++-14"
       }
     },
     {
@@ -80,9 +74,7 @@
       "hidden": true,
       "inherits": "CI-Linux",
       "cacheVariables": {
-        "CT_C_EXE": "clang-19",
-        "CT_CXX_EXE": "clang++-19",
-        "CT_COMPILER_ID": "Clang"
+        "CMAKE_CXX_COMPILER": "clang++-19"
       }
     },
     {
