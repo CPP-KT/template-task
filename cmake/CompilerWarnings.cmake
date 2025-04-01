@@ -1,4 +1,6 @@
-function(ct_set_compiler_warnings TARGET TREAT_WARNINGS_AS_ERRORS)
+option(CT_TREAT_WARNINGS_AS_ERRORS "Treat warnings as errors" OFF)
+
+function(ct_set_compiler_warnings TARGET)
 
   set(GCC_CLANG_COMMON_WARNINGS
     -Wall -Wextra # baseline reasonable and standard warnings
@@ -30,7 +32,7 @@ function(ct_set_compiler_warnings TARGET TREAT_WARNINGS_AS_ERRORS)
 
   set(MSVC_WARNINGS /W4 /permissive-)
 
-  if(TREAT_WARNINGS_AS_ERRORS)
+  if(CT_TREAT_WARNINGS_AS_ERRORS)
     message(STATUS "Warnings are treated as errors")
     list(APPEND GCC_WARNINGS -Werror -pedantic-errors)
     list(APPEND CLANG_WARNINGS -Werror -pedantic-errors)
