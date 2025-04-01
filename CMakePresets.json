@@ -69,8 +69,7 @@
       "hidden": true,
       "inherits": "CI-Linux",
       "cacheVariables": {
-        "CT_C_EXE": "gcc-14",
-        "CT_CXX_EXE": "gcc-14"
+        "CMAKE_CXX_COMPILER": "g++-14"
       }
     },
     {
@@ -79,8 +78,7 @@
       "hidden": true,
       "inherits": "CI-Linux",
       "cacheVariables": {
-        "CT_C_EXE": "clang-19",
-        "CT_CXX_EXE": "clang++-19"
+        "CMAKE_CXX_COMPILER": "clang++-19"
       }
     },
     {
