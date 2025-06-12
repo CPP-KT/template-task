@@ -10,7 +10,7 @@ function(ct_set_compiler_warnings TARGET)
     -Wextra-semi # warn about redundant semicolons
     -Woverloaded-virtual # warn on overloading (not overriding) a virtual function
     -Wzero-as-null-pointer-constant # warn on using literal '0' as a pointer
-    -Wnull-dereference # warn if nullptr dereference is detected
+    # -Wnull-dereference # warn if nullptr dereference is detected (disabled, might cause false-positives)
   )
 
   set(GCC_WARNINGS
@@ -20,6 +20,12 @@ function(ct_set_compiler_warnings TARGET)
     -Wduplicated-branches # warn if an else-if has identical branches
     -Wduplicated-cond # warn if an if-else-if chain has duplicated conditions
     -Wsuggest-override # warn about overriding virtual functions without marking them with the override keyword
+    # False-positives:
+    -Wno-array-bounds
+    -Wno-maybe-uninitialized
+    -Wno-restrict
+    -Wno-stringop-overflow -Wno-stringop-overread
+    -Wno-use-after-free
   )
 
   set(CLANG_WARNINGS
